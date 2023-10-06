@@ -1,0 +1,8 @@
+flask
+librosa
+pandas
+numpy
+tensorflow
+joblib
+scipy
+setuptools==67.7.2
