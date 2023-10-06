@@ -111,7 +111,9 @@ def index():
     data = eval(request.get_json())
     y = np.array(data['y'])
     sr = int(data['sr'])
+    print(type(y), type(sr))
     genres = find_genre(y, sr).tolist()
+    print(genres)
     y = None
     data = None
     print(genres)
