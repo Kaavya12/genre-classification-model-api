@@ -117,4 +117,4 @@ def index():
     print(genres)
     return genres
 
-application.run(host='0.0.0.0', port=81)
+application.run(host='0.0.0.0', port=80)
