@@ -5,4 +5,5 @@ numpy
 tensorflow-cpu
 joblib
 scipy
+soundfile==0.12.1
 # setuptools==67.7.2

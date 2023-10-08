@@ -6,6 +6,7 @@ import numpy as np
 import tensorflow as tf
 import joblib
 from scipy import stats
+import io, base64
 
 application = Flask(__name__)
 
@@ -88,7 +89,6 @@ def compute_features(x, sr):
 
 def find_genre(y, sr):
     features = compute_features(y, sr)
-    print(features)
     columns = ['mfcc', 'spectral_contrast', 'chroma_cens', 'spectral_centroid', 'zcr', 'tonnetz']
     features = features.loc[columns]
     transposed_df = pd.DataFrame(features.values.reshape(1, -1),
@@ -108,15 +108,15 @@ def find_genre(y, sr):
 
 @application.route('/', methods=['POST'])
 def index():
-    data = eval(request.get_json())
-    y = np.array(data['y'])
-    sr = int(data['sr'])
+    decoded = request.files['file']
+    content = decoded.read()
+    file = io.BytesIO(content)
+    file.seek(0)
+    y, sr = librosa.load(file)
     print(type(y), type(sr))
     genres = find_genre(y, sr).tolist()
     print(genres)
     y = None
-    data = None
-    print(genres)
-    return genres
+    return f"{genres}"
 
-application.run(host='0.0.0.0', port=80)
+application.run(host='0.0.0.0', port=80, threaded=True, debug=True)
